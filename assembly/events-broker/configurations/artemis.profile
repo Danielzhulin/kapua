@@ -9,12 +9,13 @@
 #
 
 ARTEMIS_HOME='/maven'
-ARTEMIS_INSTANCE='/opt/artemis'
-
+#ARTEMIS_INSTANCE='/opt/activemq-artemis'
+ARTEMIS_INSTANCE='/var/lib/artemis-instance'
 # The logging config will need an URI
 # this will be encoded in case you use spaces or special characters
 # on your directory structure
-ARTEMIS_INSTANCE_URI='file:/opt/artemis/'
+#ARTEMIS_INSTANCE_URI='file:/opt/activemq-artemis/'
+ARTEMIS_INSTANCE_URI='file:/var/lib/artemis-instance/'
 
 # Cluster Properties: Used to pass arguments to ActiveMQ Artemis which can be referenced in broker.xml
 #ARTEMIS_CLUSTER_PROPS="-Dactivemq.remoting.default.port=61617 -Dactivemq.remoting.amqp.port=5673 -Dactivemq.remoting.stomp.port=61614 -Dactivemq.remoting.hornetq.port=5446"

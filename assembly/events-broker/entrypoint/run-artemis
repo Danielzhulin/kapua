@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ################################################################################
 #    Copyright (c) 2017, 2020 Eurotech
@@ -13,11 +13,54 @@
 
 # Configure credentials
 
-: ARTEMIS_USER=${ARTEMIS_USER:=kapua-sys}
-: ARTEMIS_PASS=${ARTEMIS_PASS:=kapua-password}
+#set -e
 
-/opt/artemis/bin/artemis user add --user ${ARTEMIS_USER} --password ${ARTEMIS_PASS} --role amq
+BROKER_HOME=/var/lib/artemis-instance
+CONFIG_PATH=$BROKER_HOME/etc
+export BROKER_HOME OVERRIDE_PATH CONFIG_PATH
+
+if [[ ${ANONYMOUS_LOGIN,,} == "true" ]]; then
+  LOGIN_OPTION="--allow-anonymous"
+else
+  LOGIN_OPTION="--require-login"
+fi
+
+#CREATE_ARGUMENTS="--user ${ARTEMIS_USER} --password ${ARTEMIS_PASSWORD} --silent ${LOGIN_OPTION} ${EXTRA_ARGS}"
+
+#echo CREATE_ARGUMENTS=${CREATE_ARGUMENTS}
+
+#: ARTEMIS_USER=${ARTEMIS_USER:=kapua-sys}
+#: ARTEMIS_PASS=${ARTEMIS_PASS:=kapua-password}
+
+/opt/activemq-artemis/bin/artemis create --user kapua-sys --password kapua-password --silent ${LOGIN_OPTION} --role amq --force /var/lib/artemis-instance
+
+#/opt/artemis/bin/artemis user add --user ${ARTEMIS_USER} --password ${ARTEMIS_PASS} --role amq
 
 # Continue with startup
 
-exec /opt/artemis/bin/artemis run xml:${ARTEMIS_CONFIGURATION}/bootstrap.xml
+exec ./bin/artemis run xml:${CONFIG_PATH}/bootstrap.xml
+
+#/opt/activemq-artemis/bin/artemis create --user kapua-sys --password kapua-password --role amq
+
+#exec ./bin/artemis "$@"
+
+
+
+#: ARTEMIS_USER=${ARTEMIS_USER:=kapua-sys}
+#: ARTEMIS_PASS=${ARTEMIS_PASS:=kapua-password}
+
+#/var/lib/artemis-instance/bin/artemis user add --user ${ARTEMIS_USER} --password ${ARTEMIS_PASS} --role amq
+#/var/lib/artemis-instance/bin/artemis user add --user kapua-sys --password kapua-password --role amq
+
+
+#if ! [ -f ./etc/broker.xml ]; then
+#    /opt/activemq-artemis/bin/artemis create --user kapua-sys --password kapua-password --role amq
+#else
+#    echo "broker already created, ignoring creation........."
+#fi
+# Continue with startup
+
+#exec /var/lib/artemis-instance/bin/artemis run xml:${ARTEMIS_CONFIGURATION}/bootstrap.xml
+#exec /var/lib/artemis-instance/bin/artemis run xml:/var/lib/artemis-instance/etc/bootstrap.xml
+#/var/lib/artemis-instance/bin/artemis run xml:/var/lib/artemis-instance/etc/bootstrap.xml
+#exec ./bin/artemis "$@"

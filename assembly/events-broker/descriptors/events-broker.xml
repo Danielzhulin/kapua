@@ -33,7 +33,7 @@
     <fileSets>
         <fileSet>
             <directory>${project.basedir}/configurations</directory>
-            <outputDirectory>opt/artemis/etc/</outputDirectory>
+            <outputDirectory>var/lib/artemis-instance/etc/</outputDirectory>
             <fileMode>0666</fileMode>
         </fileSet>
     </fileSets>
